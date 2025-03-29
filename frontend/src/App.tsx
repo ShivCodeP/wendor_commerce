@@ -1,63 +1,61 @@
-import React, { useState } from 'react';
-import { ShoppingCart } from 'lucide-react';
-import { Toaster, toast } from 'react-hot-toast';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { useCartStore } from './store/cart';
-import ProductGrid from './components/ProductGrid';
-import ProductDetails from './components/ProductDetails';
-import CheckoutModal from './components/CheckoutModal';
-import type { Database } from './lib/database.types';
+import React, { useState } from "react";
+import { ShoppingCart } from "lucide-react";
+import { Toaster, toast } from "react-hot-toast";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useCartStore } from "./store/cart";
+import ProductGrid from "./components/ProductGrid";
+import ProductDetails from "./components/ProductDetails";
+import CheckoutModal from "./components/CheckoutModal";
+import ThankYouDialog from "./components/ThankYouDialog";
+import type { Database } from "./lib/database.types";
 
-type InventoryItem = Database['public']['Tables']['inventory']['Row'];
+type InventoryItem = Database["public"]["Tables"]["inventory"]["Row"];
 
 const queryClient = new QueryClient();
 
 function VendingMachine() {
-  const [selectedProduct, setSelectedProduct] = useState<InventoryItem | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<InventoryItem | null>(
+    null
+  );
   const [showCheckout, setShowCheckout] = useState(false);
-  const { items, addItem, removeItem, updateQuantity, clearCart, total } = useCartStore();
+  const [showThankYou, setShowThankYou] = useState(false);
+  const { items, addItem, removeItem, updateQuantity, clearCart, total } =
+    useCartStore();
 
   const handleAddToCart = (item: InventoryItem) => {
     addItem(item);
     toast.success(`Added ${item.name} to cart`, {
       style: {
-        background: '#22c55e',
-        color: '#fff',
+        background: "#22c55e",
+        color: "#fff",
       },
       iconTheme: {
-        primary: '#fff',
-        secondary: '#22c55e',
+        primary: "#fff",
+        secondary: "#22c55e",
       },
     });
   };
 
   const handlePurchaseSuccess = () => {
-    toast.success('Order placed successfully!', {
-      style: {
-        background: '#22c55e',
-        color: '#fff',
-      },
-      iconTheme: {
-        primary: '#fff',
-        secondary: '#22c55e',
-      },
-    });
-    clearCart();
     setShowCheckout(false);
-    queryClient.invalidateQueries({ queryKey: ['inventory'] });
+    setShowThankYou(true);
+    setTimeout(() => {
+      queryClient.invalidateQueries({ queryKey: ["inventory"] });
+      clearCart();
+    }, 1000);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Toaster position="bottom-left" />
-      
+
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-10 backdrop-blur-lg bg-white/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-              Wendor Mart
+              Fresh Mart
             </h1>
             <button
               onClick={() => setShowCheckout(true)}
@@ -106,6 +104,11 @@ function VendingMachine() {
             setSelectedProduct(item);
           }}
         />
+      )}
+
+      {/* Thank You Dialog */}
+      {showThankYou && (
+        <ThankYouDialog onClose={() => setShowThankYou(false)} />
       )}
     </div>
   );

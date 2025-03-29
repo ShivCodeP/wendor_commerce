@@ -1,33 +1,31 @@
-import React, { useCallback } from 'react';
-import { useInView } from 'react-intersection-observer';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { Package2 } from 'lucide-react';
-import { fetchInventory } from '../lib/api';
-import ProductCard from './ProductCard';
-import type { Database } from '../lib/database.types';
+import React, { useCallback } from "react";
+import { useInView } from "react-intersection-observer";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { Package2 } from "lucide-react";
+import { fetchInventory } from "../lib/api";
+import ProductCard from "./ProductCard";
+import type { Database } from "../lib/database.types";
 
-type InventoryItem = Database['public']['Tables']['inventory']['Row'];
+type InventoryItem = Database["public"]["Tables"]["inventory"]["Row"];
 
 interface ProductGridProps {
   onAddToCart: (item: InventoryItem) => void;
   onViewDetails: (item: InventoryItem) => void;
 }
 
-export default function ProductGrid({ onAddToCart, onViewDetails }: ProductGridProps) {
+export default function ProductGrid({
+  onAddToCart,
+  onViewDetails,
+}: ProductGridProps) {
   const { ref, inView } = useInView();
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery({
-    queryKey: ['inventory'],
-    queryFn: ({ pageParam = 1 }) => fetchInventory(pageParam),
-    getNextPageParam: (lastPage, pages) => 
-      lastPage.hasMore ? pages.length + 1 : undefined,
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery({
+      queryKey: ["inventory"],
+      queryFn: ({ pageParam = 1 }) => fetchInventory(pageParam),
+      getNextPageParam: (lastPage, pages) =>
+        lastPage.hasMore ? pages.length + 1 : undefined,
+    });
 
   React.useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -35,15 +33,21 @@ export default function ProductGrid({ onAddToCart, onViewDetails }: ProductGridP
     }
   }, [inView, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-  const handleAddToCart = useCallback((item: InventoryItem) => {
-    onAddToCart(item);
-  }, [onAddToCart]);
+  const handleAddToCart = useCallback(
+    (item: InventoryItem) => {
+      onAddToCart(item);
+    },
+    [onAddToCart]
+  );
 
-  const handleViewDetails = useCallback((item: InventoryItem) => {
-    onViewDetails(item);
-  }, [onViewDetails]);
+  const handleViewDetails = useCallback(
+    (item: InventoryItem) => {
+      onViewDetails(item);
+    },
+    [onViewDetails]
+  );
 
-  if (status === 'pending') {
+  if (status === "pending") {
     return (
       <div className="min-h-[400px] flex items-center justify-center">
         <div className="animate-spin">
@@ -53,7 +57,7 @@ export default function ProductGrid({ onAddToCart, onViewDetails }: ProductGridP
     );
   }
 
-  if (status === 'error') {
+  if (status === "error") {
     return (
       <div className="min-h-[400px] flex items-center justify-center">
         <p className="text-red-500">Error loading products</p>
@@ -75,7 +79,7 @@ export default function ProductGrid({ onAddToCart, onViewDetails }: ProductGridP
           ))}
         </React.Fragment>
       ))}
-      
+
       <div ref={ref} className="col-span-full flex justify-center p-4">
         {isFetchingNextPage && (
           <div className="animate-spin">
