@@ -28,7 +28,6 @@ export class CanDataBasesConfig implements ICanDatabasesConfig {
       database: this.configService.get<string>('db.wendor_commerce.database'),
       models: MODELS,
       logging: false,
-      sync: { logging: true, alter: true },
       pool: {
         max: this.configService.get<number>('db.poolMax'),
         min: 5,

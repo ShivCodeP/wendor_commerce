@@ -20,13 +20,13 @@ export class Order extends Model<Order> {
   declare id: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  customer_name: string;
+  declare customer_name: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  status: string;
+  declare status: string;
 
   @Column({ type: DataType.DECIMAL, allowNull: false })
-  total_amount: number;
+  declare total_amount: number;
 
   @HasMany(() => OrderItem)
   order_items: OrderItem[];
@@ -34,10 +34,10 @@ export class Order extends Model<Order> {
   @CreatedAt
   @Default(DataType.NOW)
   @Column({ type: DataType.DATE })
-  created_at: Date;
+  declare created_at: Date;
 
   @UpdatedAt
   @Default(DataType.NOW)
   @Column({ type: DataType.DATE })
-  updated_at: Date;
+  declare updated_at: Date;
 }

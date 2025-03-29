@@ -14,7 +14,6 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { InventoriesService } from './inventories.service';
 import {
   CreateInventoryDto,
-  UpdateInventoryDto,
   UpsertInventoryDto,
   BulkCreateInventoryDto,
   BulkUpdateInventoryDto,
@@ -63,19 +62,6 @@ export class InventoriesController {
     return this.inventoriesService.findOne(id);
   }
 
-  @Put(':id')
-  @ApiOperation({ summary: 'Update an inventory item' })
-  @ApiResponse({
-    status: 200,
-    description: 'Inventory item updated successfully.',
-  })
-  async update(
-    @Param('id') id: number,
-    @Body() updateInventoryDto: UpdateInventoryDto,
-  ) {
-    return this.inventoriesService.update(id, updateInventoryDto);
-  }
-
   @Delete(':id')
   @ApiOperation({ summary: 'Delete an inventory item' })
   @ApiResponse({
@@ -111,6 +97,7 @@ export class InventoriesController {
     );
   }
 
+  @UseGuards(CanAuthGuard)
   @Put('/bulk-update')
   @ApiOperation({ summary: 'Bulk update inventory items' })
   @ApiResponse({
@@ -121,6 +108,7 @@ export class InventoriesController {
     return this.inventoriesService.bulkUpdate(bulkUpdateInventoryDto.items);
   }
 
+  @UseGuards(CanAuthGuard)
   @Post('/bulk-upsert')
   @ApiOperation({ summary: 'Bulk upsert inventory items' })
   @ApiResponse({
