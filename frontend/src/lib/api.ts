@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://ruling-jillie-wendor-1c229edf.koyeb.app//v1";
+const API_BASE_URL = "https://ruling-jillie-wendor-1c229edf.koyeb.app/v1";
 
 export async function fetchInventory(page: number = 1, limit: number = 12) {
   const offset = (page - 1) * limit;
