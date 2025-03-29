@@ -38,7 +38,7 @@ frontend/src/
 
 ### Inventory Endpoint
 ```bash
-GET https://wendorcommerce-production.up.railway.app/v1/inventories
+GET https://ruling-jillie-wendor-1c229edf.koyeb.app/v1/inventories
 ```
 
 **Parameters:**
@@ -47,7 +47,7 @@ GET https://wendorcommerce-production.up.railway.app/v1/inventories
 
 ### Order Endpoint
 ```bash
-POST https://wendorcommerce-production.up.railway.app/v1/orders
+POST https://ruling-jillie-wendor-1c229edf.koyeb.app/v1/orders
 ```
 
 **Required Headers:**
@@ -169,14 +169,14 @@ npm run build
 
 ### Generate `x-api-key` for a location
 ```bash
-curl --location 'https://wendorcommerce-production.up.railway.app/v1/api-key/generate' --header 'Content-Type: application/json' --data '{
+curl --location 'https://ruling-jillie-wendor-1c229edf.koyeb.app/v1/api-key/generate' --header 'Content-Type: application/json' --data '{
     "location_id": "wendor_count_delhi_123"
 }'
 ```
 
 ### Bulk Create Inventory
 ```bash
-curl --location 'https://wendorcommerce-production.up.railway.app/v1/inventories/bulk-create' --header 'Content-Type: application/json' --header 'location-id: wendor_count_delhi_123' --header 'x-api-key: YOUR_GENERATED_API_KEY' --data '{
+curl --location 'https://ruling-jillie-wendor-1c229edf.koyeb.app/v1/inventories/bulk-create' --header 'Content-Type: application/json' --header 'location-id: wendor_count_delhi_123' --header 'x-api-key: YOUR_GENERATED_API_KEY' --data '{
     "items": [
         {
             "name": "Lays Classic",
@@ -204,4 +204,4 @@ curl --location 'https://wendorcommerce-production.up.railway.app/v1/inventories
 
 For a detailed API reference, visit the **Swagger API Docs**:
 
-🔗 **[Wendor Commerce API Docs](https://wendorcommerce-production.up.railway.app/api-docs)**
+🔗 **[Wendor Commerce API Docs](https://ruling-jillie-wendor-1c229edf.koyeb.app/api-docs)**
