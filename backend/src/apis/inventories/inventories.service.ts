@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Inventories } from './inventories.model';
 import { INVENTORIES_REPOSITORY } from './inventories.repository';
-import { FindOptions } from 'sequelize';
+import { FindOptions, IncrementDecrementOptionsWithBy } from 'sequelize';
 
 @Injectable()
 export class InventoriesService {
@@ -50,5 +50,12 @@ export class InventoriesService {
 
   async bulkUpsert(items: Inventories[]): Promise<Inventories[]> {
     return Promise.all(items.map((item) => this.upsert(item)));
+  }
+
+  async decrement(
+    item: Pick<Inventories, 'available_units'>,
+    options: IncrementDecrementOptionsWithBy<Inventories>,
+  ) {
+    return this.inventoriesRepository.decrement(item, options);
   }
 }
