@@ -23,17 +23,17 @@ export class OrderItem extends Model<OrderItem> {
 
   @ForeignKey(() => Order)
   @Column({ type: DataType.UUID, allowNull: false })
-  order_id: string;
+  declare order_id: string;
 
   @ForeignKey(() => Inventories)
   @Column({ type: DataType.UUID, allowNull: false })
-  inventory_id: string;
+  declare inventory_id: string;
 
   @Column({ type: DataType.INTEGER, allowNull: false })
-  quantity: number;
+  declare quantity: number;
 
   @Column({ type: DataType.DECIMAL, allowNull: false })
-  price: number;
+  declare price: number;
 
   @BelongsTo(() => Order)
   order: Order;
@@ -41,10 +41,10 @@ export class OrderItem extends Model<OrderItem> {
   @CreatedAt
   @Default(DataType.NOW)
   @Column({ type: DataType.DATE })
-  created_at: Date;
+  declare created_at: Date;
 
   @UpdatedAt
   @Default(DataType.NOW)
   @Column({ type: DataType.DATE })
-  updated_at: Date;
+  declare updated_at: Date;
 }

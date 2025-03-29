@@ -11,27 +11,27 @@ import {
 @Table({ tableName: 'inventories', timestamps: true })
 export class Inventories extends Model<Inventories> {
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
-  name: string;
+  declare name: string;
 
   @Column({ type: DataType.DECIMAL, allowNull: false })
-  price: number;
+  declare price: number;
 
   @Column({ type: DataType.INTEGER, allowNull: false })
-  available_units: number;
+  declare available_units: number;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  display_image_url: string;
+  declare display_image_url: string;
 
   @Column({ type: DataType.ENUM('active', 'inactive'), defaultValue: 'active' })
-  status: 'active' | 'inactive';
+  declare status: 'active' | 'inactive';
 
   @CreatedAt
   @Default(DataType.NOW)
   @Column({ type: DataType.DATE })
-  created_at: Date;
+  declare created_at: Date;
 
   @UpdatedAt
   @Default(DataType.NOW)
   @Column({ type: DataType.DATE })
-  updated_at: Date;
+  declare updated_at: Date;
 }
